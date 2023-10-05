@@ -12,6 +12,21 @@ export default function QueryProcessor(query: string): string {
     const largestNumber = Math.max(...numbers);
     return `${largestNumber}`;
   }
+  const squareCubeMatch = query.match(/which of the following numbers is both a square and a cube: ([\d\s,]+)/i);
+  if (squareCubeMatch) {
+    const numbersString = squareCubeMatch[1].split(",");
+    const numbers: number[] = numbersString.map(str => parseInt(str.trim(), 10)).filter(num => !isNaN(num));
+    const results = numbers.filter(num => {
+      const root = Math.pow(num, 1/6);
+      return Math.floor(root) === root; 
+    });
+  }
+  const multiplyMatch = query.match(/What is (\d+) multiplied by (\d+)/i);
+  if (multiplyMatch) {
+    const x: number = parseInt(multiplyMatch[1], 10);
+    const y: number = parseInt(multiplyMatch[2], 10);
+    return (x * y).toString();
+  }
   if (query.toLowerCase().includes("shakespeare")) {
     return (
       "William Shakespeare (26 April 1564 - 23 April 1616) was an " +
