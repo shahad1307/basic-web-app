@@ -5,6 +5,13 @@ export default function QueryProcessor(query: string): string {
     const y: number = parseInt(addMatch[2], 10);
     return (x + y).toString();
   }
+  const largestMatch = query.match(/which of the following numbers is the largest: ([\d\s,]+)/i);
+  if (largestMatch) {
+    const numbersString = largestMatch[1].split(",");
+    const numbers: number[] = numbersString.map(str => parseInt(str.trim(), 10)).filter(num => !isNaN(num));
+    const largestNumber = Math.max(...numbers);
+    return `${largestNumber}`;
+  }
   if (query.toLowerCase().includes("shakespeare")) {
     return (
       "William Shakespeare (26 April 1564 - 23 April 1616) was an " +
